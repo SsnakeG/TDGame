@@ -1,7 +1,7 @@
 import pygame
 from GameItems.objects import Block, NoImgButton, PopupWindow, Button, OptionBox
 from GameItems.tdColors import green_elements, BLACK, EMPTY_COLOR
-from GameItems.tdImages import background
+from GameItems.tdImages import background, FPS
 from GameItems.AutoResizableNum import *
 from random import choice
 
@@ -51,7 +51,6 @@ screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
 surface = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
 pygame.display.set_caption('Tower Defense')
 clock = pygame.time.Clock()
-FPS = 60
 
 blockSize = rNum(25, 1)
 mapDimensions = (600, 600)
