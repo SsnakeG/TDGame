@@ -191,51 +191,51 @@ class TrackEditor:
     @staticmethod
     def makeCustomPathPart(mousePos, blocks, pathColor, pathParts):
         newPathPart = []
-        try:  # checks for an empty list
-            blocks[int((mousePos[0]-rNum(50, 0).end()) / blockSize.get())][int((mousePos[1]-15) / blockSize.get())]
-        except IndexError:
-            return None
         square = (int((mousePos[0]-rNum(50, 0).end()) / blockSize.get()), int((mousePos[1]-15) / blockSize.get()))
-        block = blocks[square[1]][square[0]]
-        block.color = pathColor
-        try:
-            last_square = pathParts[len(pathParts) - 1][len(pathParts[len(pathParts) - 1]) - 1]
-        except IndexError:
-            newPathPart.append(square)
-            pathParts.append(newPathPart)
-            return True
-        try:
-            if square[0] != last_square[0] and square[1] != last_square[1]:
-                block.color = block.initialColor
+        if min(square) > -1:
+            try:  # checks for an empty list
+                block = blocks[square[1]][square[0]]
+            except IndexError:
                 return None
-            elif square[0] == last_square[0]:  # same column
-                if square[1] < last_square[1]:  # up
-                    for iterable1 in range(1 + last_square[1] - square[1]):
-                        new_square = (square[0], int(last_square[1] - iterable1))
-                        new_block = blocks[new_square[1]][new_square[0]]
-                        new_block.color = pathColor
-                        newPathPart.append(new_square)
-                elif square[1] > last_square[1]:  # down
-                    for iterable2 in range(1 + square[1] - last_square[1]):
-                        new_square = (square[0], int(last_square[1] + iterable2))
-                        new_block = blocks[new_square[1]][new_square[0]]
-                        new_block.color = pathColor
-                        newPathPart.append(new_square)
+            block.color = pathColor
+            try:
+                last_square = pathParts[len(pathParts) - 1][len(pathParts[len(pathParts) - 1]) - 1]
+            except IndexError:
+                newPathPart.append(square)
+                pathParts.append(newPathPart)
+                return True
+            try:
+                if square[0] != last_square[0] and square[1] != last_square[1]:
+                    block.color = block.initialColor
+                    return None
+                elif square[0] == last_square[0]:  # same column
+                    if square[1] < last_square[1]:  # up
+                        for iterable1 in range(1 + last_square[1] - square[1]):
+                            new_square = (square[0], int(last_square[1] - iterable1))
+                            new_block = blocks[new_square[1]][new_square[0]]
+                            new_block.color = pathColor
+                            newPathPart.append(new_square)
+                    elif square[1] > last_square[1]:  # down
+                        for iterable2 in range(1 + square[1] - last_square[1]):
+                            new_square = (square[0], int(last_square[1] + iterable2))
+                            new_block = blocks[new_square[1]][new_square[0]]
+                            new_block.color = pathColor
+                            newPathPart.append(new_square)
 
-            elif square[1] == last_square[1]:  # same row
-                if square[0] < last_square[0]:  # left
-                    for i in range(1 + last_square[0] - square[0]):
-                        new_square = (last_square[0] - i, square[1])
-                        new_block = blocks[new_square[1]][new_square[0]]
-                        new_block.color = pathColor
-                        newPathPart.append(new_square)
-                elif square[0] > last_square[0]:  # right
-                    for i in range(1 + square[0] - last_square[0]):
-                        new_square = (last_square[0] + i, square[1])
-                        new_block = blocks[new_square[1]][new_square[0]]
-                        new_block.color = pathColor
-                        newPathPart.append(new_square)
-        except UnboundLocalError:
-            pass
-        pathParts.append(newPathPart[1:])
-        return True
+                elif square[1] == last_square[1]:  # same row
+                    if square[0] < last_square[0]:  # left
+                        for i in range(1 + last_square[0] - square[0]):
+                            new_square = (last_square[0] - i, square[1])
+                            new_block = blocks[new_square[1]][new_square[0]]
+                            new_block.color = pathColor
+                            newPathPart.append(new_square)
+                    elif square[0] > last_square[0]:  # right
+                        for i in range(1 + square[0] - last_square[0]):
+                            new_square = (last_square[0] + i, square[1])
+                            new_block = blocks[new_square[1]][new_square[0]]
+                            new_block.color = pathColor
+                            newPathPart.append(new_square)
+            except UnboundLocalError:
+                pass
+            pathParts.append(newPathPart[1:])
+            return True

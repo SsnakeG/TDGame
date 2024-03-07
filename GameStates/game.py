@@ -13,12 +13,12 @@ class Game:
     blockSize = rNum(25, 1)
 
     def __init__(self, screen, drawingSurface: Surface, playSpeed):
-        self.budget = 500000000000000
+        self.budget = 500
         self.health = 100
 
         self.screenSize = rNum(600, 1)
 
-        self.waveNum = 0
+        self.waveNum = 20
         self.waveList = difficultyEasy
         self.waveList2 = []
         for wave in self.waveList:
@@ -143,7 +143,6 @@ class Game:
         game = True
         clickAllowed = True
         self.won = True
-        self.winPopup.draw(self.mainSurface)
         if self.winPopup.optionNo.check_click(clicked, mousePos, (self.winPopup.x, self.winPopup.y)):
             game = False
             menu = True
@@ -220,6 +219,9 @@ class Game:
         self.selectionBox.draw(self.mainSurface, self.selectedTower)
         if not self.placingUnit and not self.selectedUnit:
             self.drawTowerHotBar(mousePos)
+
+        if self.won:
+            self.winPopup.draw(self.mainSurface)
 
         self.screen.blit(self.blockSurface, surfacePos)
         self.screen.blit(self.mainSurface, surfacePos)
@@ -309,37 +311,38 @@ class Game:
 
     def createUnit(self, info, pos, blocks):
         """Info is list of stats for unit (damage range speed image)\n pos as block coords, not pygame coords"""
-        if not info:
-            return
-        try:
-            if info[4] <= self.budget and pos[1] * self.blockSize.get() < self.screenSize.get() and not blocks[pos[1]][pos[0]].is_path and not (
-                    blocks[pos[1]][pos[0]].has_tower or blocks[pos[1]][pos[0]].has_farm):
-                try:
-                    Tower(info[3], pos, upgrade_type=info[5], damage=info[0], attack_range=info[1], speed=info[2],
-                          price=info[4], tower_type=info[6], special=info[7], playSpeed=self.playSpeed)
-                    blocks[pos[1]][pos[0]].has_tower = True
-                    self.budget -= info[4]
-                    self.placingUnit = False
-                    self.selectedUnit = None
-                    return True
-                except IndexError:
+        if min(pos) > -1 and max(pos) < 25:
+            if not info:
+                return
+            try:
+                if info[4] <= self.budget and pos[1] * self.blockSize.get() < self.screenSize.get() and not blocks[pos[1]][pos[0]].is_path and not (
+                        blocks[pos[1]][pos[0]].has_tower or blocks[pos[1]][pos[0]].has_farm):
                     try:
                         Tower(info[3], pos, upgrade_type=info[5], damage=info[0], attack_range=info[1], speed=info[2],
-                              price=info[4], tower_type=info[6], playSpeed=self.playSpeed)
+                              price=info[4], tower_type=info[6], special=info[7], playSpeed=self.playSpeed)
                         blocks[pos[1]][pos[0]].has_tower = True
                         self.budget -= info[4]
                         self.placingUnit = False
                         self.selectedUnit = None
                         return True
                     except IndexError:
-                        pass
-        except TypeError:
-            if info[1] <= self.budget and pos[1] * self.blockSize.get() < self.screenSize.get() and not blocks[pos[1]][pos[0]].is_path and not blocks[pos[1]][pos[0]].has_tower:
-                Farm(info[2], pos, info[3])
-                blocks[pos[1]][pos[0]].has_farm = True
-                self.budget -= info[1]
-                self.placingUnit = False
-                self.selectedUnit = False
+                        try:
+                            Tower(info[3], pos, upgrade_type=info[5], damage=info[0], attack_range=info[1], speed=info[2],
+                                  price=info[4], tower_type=info[6], playSpeed=self.playSpeed)
+                            blocks[pos[1]][pos[0]].has_tower = True
+                            self.budget -= info[4]
+                            self.placingUnit = False
+                            self.selectedUnit = None
+                            return True
+                        except IndexError:
+                            pass
+            except TypeError:
+                if info[1] <= self.budget and pos[1] * self.blockSize.get() < self.screenSize.get() and not blocks[pos[1]][pos[0]].is_path and not blocks[pos[1]][pos[0]].has_tower:
+                    Farm(info[2], pos, info[3])
+                    blocks[pos[1]][pos[0]].has_farm = True
+                    self.budget -= info[1]
+                    self.placingUnit = False
+                    self.selectedUnit = False
 
     def selectUnit(self, pos, blocks, towers):
         self.selectedTower = None
