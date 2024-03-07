@@ -5,8 +5,12 @@ block_size = 25
 
 mixer.init()
 
-imgsPath = "GameItems/imgs/"
-audioPath = "GameItems/audio/"
+path = __file__
+path_len = len(path)-12
+path = path[0:path_len]
+
+imgsPath = f"{path}/imgs/"
+audioPath = f"{path}/audio/"
 
 # audio
 # bongSong = mixer.Sound(f"{audioPath}TacoBellBong.mp3")
@@ -122,6 +126,7 @@ enemyStats = {"Normal": [normal_img, 10, REG_SPEED, block_size],
               "Fast Boss": [fast_boss_img, 3000, BOSS_FAST, block_size],
               "Tank Boss": [tank_boss_img, 35000, BOSS_SLOW, block_size],
               "Final Boss": [final_boss_img, 1000000, FINAL_BOSS, block_size]}
+
 
 background = image.load(f'{imgsPath}Background.png')
 playImg = image.load(f'{imgsPath}Playimg.png')
