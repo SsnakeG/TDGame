@@ -1,11 +1,11 @@
-from GameItems.objects import PopupWindow, NoImgButton
+from GameItems.GUI import PopupWindow, NoImgButton
 from GameItems.tdImages import popupBackground
 from GameItems.tdColors import *
-from pygame import Surface, SRCALPHA
+from pygame import Surface
 
 
 class Menu:
-    def __init__(self, drawingSurface: Surface):
+    def __init__(self, drawingSurface: Surface, mainSurface):
         self.playButton = NoImgButton(160, 150, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Play", fontSize=30)
         self.optionsButton = NoImgButton(160, 250, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Options", fontSize=30)
         self.quitButton = NoImgButton(160, 350, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Quit", fontSize=30)
@@ -14,10 +14,10 @@ class Menu:
 
         self.quitting = False
         self.surface = drawingSurface
-        size = min(drawingSurface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
+        self.mainSurface = mainSurface
 
     def draw(self, mousePos, surfacePos):
+        self.mainSurface.fill(EMPTY_COLOR)
         if not self.quitting:
             self.playButton.checkHovered(mousePos, surfacePos)
             self.optionsButton.checkHovered(mousePos, surfacePos)
@@ -65,7 +65,3 @@ class Menu:
             self.mainSurface.fill(EMPTY_COLOR)
 
         return run, clickAllowed
-
-    def updateSize(self):
-        size = min(self.surface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)

@@ -1,14 +1,14 @@
-from GameItems.objects import Button, PopupWindow, MapsPage
+from GameItems.GUI import Button, PopupWindow, MapsPage
 from GameItems.tdImages import undoImg, RedoImg, saveImg, trashImg, homeImg, popupBackground
 from GameItems.tdColors import *
-from pygame import QUIT, MOUSEBUTTONDOWN, SRCALPHA, Surface
-from GameItems.AutoResizableNum import rNum
-
-blockSize = rNum(20, 2)
+from pygame import QUIT, MOUSEBUTTONDOWN
+from GameItems.autoResizableNum import rNum
 
 
 class TrackEditor:
-    def __init__(self, drawingSurface):
+    blockSize = rNum(20, 2)
+
+    def __init__(self, drawingSurface, mainSurface):
         self.undoBtn = Button(10, 505, undoImg, 0.3, 0.3)
         self.redoBtn = Button(110, 505, RedoImg, 0.3, 0.3)
         self.saveBtn = Button(400, 505, saveImg, 0.3, 0.3)
@@ -27,8 +27,7 @@ class TrackEditor:
                                             text='Are you sure you would like to save this custom map?',
                                             scale=[.75, .75], textColor=DARK_BLUE)
         self.surface = drawingSurface
-        size = min(drawingSurface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
+        self.mainSurface = mainSurface
 
         self.newPathParts = []
         self.undoneList = []
@@ -191,7 +190,7 @@ class TrackEditor:
     @staticmethod
     def makeCustomPathPart(mousePos, blocks, pathColor, pathParts):
         newPathPart = []
-        square = (int((mousePos[0]-rNum(50, 0).end()) / blockSize.get()), int((mousePos[1]-15) / blockSize.get()))
+        square = (int((mousePos[0]-rNum(50, 0).end()) / TrackEditor.blockSize.get()), int((mousePos[1]-15) / TrackEditor.blockSize.get()))
         if min(square) > -1:
             try:  # checks for an empty list
                 block = blocks[square[1]][square[0]]

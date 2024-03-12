@@ -1,8 +1,8 @@
 import pygame
-from GameItems.objects import Block, NoImgButton, PopupWindow, Button, OptionBox
+from GameItems.GUI import Block, NoImgButton, PopupWindow, Button, OptionBox
 from GameItems.tdColors import green_elements, BLACK, EMPTY_COLOR
 from GameItems.tdImages import background, FPS
-from GameItems.AutoResizableNum import *
+from GameItems.autoResizableNum import *
 from random import choice
 
 from GameStates.menu import Menu
@@ -31,11 +31,14 @@ def updateWindowSize(w, h):
         window.updateSizes()
     for box in OptionBox.boxes:
         box.updateSizes()
+    s = min(screen.get_size())
+    drawSurface = pygame.Surface((s, s), pygame.SRCALPHA)
     gameGUI.selectionBox.updateSizes()
-    mainMenu.updateSize()
-    optionMenu.updateSize()
-    loadOutMenu.updateSize()
-    mapMenu.updateSize()
+    gameGUI.mainSurface = drawSurface
+    mainMenu.mainSurface = drawSurface
+    optionMenu.mainSurface = drawSurface
+    loadOutMenu.mainSurface = drawSurface
+    mapMenu.mainSurface = drawSurface
     # trackEditor.updateSize()
     gameGUI.updateSize()
 
@@ -49,6 +52,8 @@ backgroundY = rNum(700, 1)
 AutoResizableNum.setupDefaults(*SIZE)
 screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
 surface = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+size = min(screen.get_size())
+drawingSurface = pygame.Surface((size, size), pygame.SRCALPHA)
 pygame.display.set_caption('Tower Defense')
 clock = pygame.time.Clock()
 
@@ -72,12 +77,12 @@ selectedUnit = None
 name = "No Tower Selected"
 newPage = True
 
-mainMenu = Menu(screen)
-optionMenu = OptionMenu(screen)
-loadOutMenu = LoadOutMenu(screen)
-mapMenu = MapSelector(screen)
-trackEditor = TrackEditor(screen)
-gameGUI = Game(screen, surface, playSpeed)
+mainMenu = Menu(screen, drawingSurface)
+optionMenu = OptionMenu(screen, drawingSurface)
+loadOutMenu = LoadOutMenu(screen, drawingSurface)
+mapMenu = MapSelector(screen, drawingSurface)
+trackEditor = TrackEditor(screen, drawingSurface)
+gameGUI = Game(screen, surface, drawingSurface, playSpeed)
 
 menu = True
 options = False

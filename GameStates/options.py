@@ -1,19 +1,18 @@
-from GameItems.objects import NoImgButton, Slider, OptionBox
+from GameItems.GUI import NoImgButton, Slider, OptionBox
 from GameItems.tdImages import *
 from GameItems.tdColors import *
 from pygame import Surface, SRCALPHA
 
 
 class OptionMenu:
-    def __init__(self, drawingSurface: Surface):
+    def __init__(self, drawingSurface: Surface, mainSurface: Surface):
         self.menuButton = NoImgButton(160, 500, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Main Menu", fontSize=30)
         self.loadOutBtn = NoImgButton(160, 100, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Loadout", fontSize=30)
         self.rgbSlider = Slider(x=150, y=250, width=300, height=65, min=1, max=3, fillColor=[0, 0, 0], value=1)
         self.volumeSlider = Slider(x=150, y=400, width=300, height=65, max=1, interval=0.01, fillColor=RED, value=.5)
 
         self.surface = drawingSurface
-        size = min(drawingSurface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
+        self.mainSurface = mainSurface
 
     def draw(self, mousePos, surfacePos):
         self.mainSurface.fill(EMPTY_COLOR)
@@ -48,13 +47,9 @@ class OptionMenu:
 
         return options, mainMenu, loadOutSelector, clickAllowed
 
-    def updateSize(self):
-        size = min(self.surface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
-
 
 class LoadOutMenu:
-    def __init__(self, drawingSurface: Surface):
+    def __init__(self, drawingSurface: Surface, mainSurface: Surface):
         self.options = ["Scout", "Sniper", "Rifle", "Demolition", "Freezer", "Pyromaniac", "Minigunner", "Turret",
                         "Farm"]
         self.dictionary = {"Scout": scoutStats, "Sniper": sniper_stats, "Rifle": rifle_man_stats,
@@ -77,8 +72,7 @@ class LoadOutMenu:
         self.alreadySelecting = False
 
         self.surface = drawingSurface
-        size = min(drawingSurface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
+        self.mainSurface = mainSurface
 
     def draw(self, mousePos, surfacePos, clickAllowed, events, screenPos):
         self.mainSurface.fill(EMPTY_COLOR)
@@ -121,10 +115,6 @@ class LoadOutMenu:
                    self.dictionary[self.options[self.loadOut5.selected]],
                    self.dictionary[self.options[self.loadOut6.selected]]]
         return loadOut
-
-    def updateSize(self):
-        size = min(self.surface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
 
     @staticmethod
     def selectLoadOutType(sNum, loadOutNum, screen, alreadySelecting, clickAllowed, events, surfacePos):

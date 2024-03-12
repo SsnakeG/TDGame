@@ -4,21 +4,22 @@ from GameStates.mapSelector import MapSelector
 from GameItems.tdColors import *
 from GameItems.tdImages import quitImg, enemyStats, popupBackground
 from pygame import draw, Surface, SRCALPHA, font
-from GameItems.objects import Button, Farm, Tower, Enemy, PopupWindow, Block, SelectionBox
+from GameItems.gameEntities import Farm, Tower, Enemy, Block
+from GameItems.GUI import Button, PopupWindow, SelectionBox
 from GameItems.waves import difficultyEasy, waveBonusEasy
-from GameItems.AutoResizableNum import *
+from GameItems.autoResizableNum import *
 
 
 class Game:
     blockSize = rNum(25, 1)
 
-    def __init__(self, screen, drawingSurface: Surface, playSpeed):
+    def __init__(self, screen, drawingSurface: Surface, mainSurface: Surface, playSpeed):
         self.budget = 500
         self.health = 100
 
         self.screenSize = rNum(600, 1)
 
-        self.waveNum = 20
+        self.waveNum = 0
         self.waveList = difficultyEasy
         self.waveList2 = []
         for wave in self.waveList:
@@ -71,7 +72,7 @@ class Game:
         self.screen = screen
         self.surface = drawingSurface
         size = min(screen.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
+        self.mainSurface = mainSurface
         self.blockSurface = Surface((size, size))
 
     def loadLoadOut(self, loadOut):
@@ -417,7 +418,6 @@ class Game:
 
     def updateSize(self):
         size = min(self.surface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
         self.blockSurface = Surface((size, size))
 
     @staticmethod

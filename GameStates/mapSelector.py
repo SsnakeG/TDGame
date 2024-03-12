@@ -1,13 +1,13 @@
-from pygame import Surface, SRCALPHA, transform
+from pygame import Surface, transform
 
-from GameItems.objects import NoImgButton, Button, MapsPage
+from GameItems.GUI import NoImgButton, Button, MapsPage
 from GameItems.tdImages import leftArrow, rightArrow, mapSelected
-from GameItems.tdColors import BEIGE, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN
-from GameItems.AutoResizableNum import rNum
+from GameItems.tdColors import *
+from GameItems.autoResizableNum import rNum
 
 
 class MapSelector:
-    def __init__(self, drawingSurface: Surface):
+    def __init__(self, drawingSurface: Surface, mainSurface: Surface):
         self.playButton = NoImgButton(305, 40, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Play Game", fontSize=30)
         self.newMapBtn = NoImgButton(15, 40, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Create Map", fontSize=30)
         self.menuButton = NoImgButton(160, 500, 280, 90, DARK_BLUE, LIGHTER_BLUE, DARKER_CYAN, "Main Menu", fontSize=30)
@@ -17,8 +17,7 @@ class MapSelector:
         self.scale = (rNum(mapSelected.get_width(), 1), rNum(mapSelected.get_height(), 1))
 
         self.surface = drawingSurface
-        size = min(drawingSurface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
+        self.mainSurface = mainSurface
 
         self.currentPage = None
         self.displayedMaps = None
@@ -32,6 +31,7 @@ class MapSelector:
         self.newPage()
 
     def draw(self, mousePos, surfacePos):
+        self.mainSurface.fill(EMPTY_COLOR)
         self.playButton.checkHovered(mousePos, surfacePos)
         self.newMapBtn.checkHovered(mousePos, surfacePos)
         self.menuButton.checkHovered(mousePos, surfacePos)
@@ -158,12 +158,8 @@ class MapSelector:
 
         return mapSelector, game, name, win, lose, menu, pathEditing, selectedUnit, clickAllowed
 
-    def updateSize(self):
-        size = min(self.surface.get_size())
-        self.mainSurface = Surface((size, size), SRCALPHA)
-
     @staticmethod
-    def loadAll():
+    def loadAll() -> list:
         new_maps = []
         new_map = []
         with open('./GameItems/maps.txt', 'r') as file:

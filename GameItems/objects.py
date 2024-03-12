@@ -5,7 +5,7 @@ import pygame.transform
 from pygame import font, transform, draw, mouse, Surface, Color, mixer
 from GameItems.tdColors import *
 from GameItems.tdImages import enemyStats, iceImg, fireImg, checkImg, xImg
-from GameItems.AutoResizableNum import *
+from GameItems.autoResizableNum import *
 
 mixer.init()
 font.init()
