@@ -154,7 +154,7 @@ class TrackEditor:
                 map_str += str(coord)
         map_strs.append(map_str)
         try:
-            with open('maps.txt', 'w') as file:
+            with open('./GameItems/maps.txt', 'w') as file:
                 for map_str in map_strs:
                     file.write(f'{map_str}\n')
         except PermissionError:
