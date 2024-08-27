@@ -264,14 +264,14 @@ class Farm:
             self.pos = pos
             self.duration = 60 / playSpeed
 
-            self.font = font.SysFont('comicsansms', 16)
+            self.font = font.SysFont('comicsansms', int(rNum(16, 0).end()))
             self.text = self.font.render(f'+${self.amount}', True, RED)
             self.textRect = self.text.get_rect()
-            self.range = range(30, 45)
+            self.range = range(int(rNum(30, 0).end()), int(rNum(45, 0).end()))
             self.height = choice(self.range)
 
         def draw(self, screen):
-            screen.blit(self.text, (self.pos[0] - self.textRect.width / 2, self.pos[1] - self.height))
+            screen.blit(self.text, (self.pos[0] - rNum(self.textRect.width / 2, 0).end(), self.pos[1] - rNum(self.height, 0).end()))
 
         def countdown(self):
             self.duration -= 1
@@ -291,7 +291,7 @@ class Farm:
         self.level = 0
         self.sell_price = int(0.75 * price)
         self.selected = False
-        self.center = [self.pos.getIdx(0) + self.size.get() / 2, self.pos.getIdx(1) + self.size.get() / 2]
+        self.center = rNums(self.pos.getIdx(0) + self.size.get() / 2, self.pos.getIdx(1) + self.size.get() / 2, intList=4)
         self.farmList.append(self)
         self.type = "Farm"
         self.text: None | Farm.BudgetText = None
@@ -319,12 +319,12 @@ class Farm:
 
     def draw(self, screen: Surface):
         try:
-            screen.blit(self.image, self.pos.get())
+            screen.blit(pygame.transform.scale(self.image, (self.size.get(), self.size.get())), self.pos.get())
         except AttributeError:
             pass
 
     def cashOut(self):
-        self.text = self.BudgetText(self.moneyGain, self.center, self.playSpeed)
+        self.text = self.BudgetText(self.moneyGain, self.center.get(), self.playSpeed)
         return self.moneyGain
 
 

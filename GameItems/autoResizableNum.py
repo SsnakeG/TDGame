@@ -21,7 +21,7 @@ class AutoResizableNum:
 
         match intList:
             case 0:
-                self.list=[]
+                self.list = []
             case 1:
                 self.list = self.guiInts
             case 2:
