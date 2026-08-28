@@ -30,6 +30,8 @@ class AutoResizableNum:
                 self.list = self.enemyInts
             case 4:
                 self.list = self.towerInts
+            case _:
+                self.list = []
         self.list.append(self)
 
         try:

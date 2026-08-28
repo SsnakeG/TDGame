@@ -1,7 +1,9 @@
-from GameItems.GUI import NoImgButton, Slider, OptionBox
+from GameItems.buttons import NoImgButton
+from GameItems.slider import Slider
+from GameItems.option_box import OptionBox
 from GameItems.tdImages import *
 from GameItems.tdColors import *
-from pygame import Surface, SRCALPHA
+from pygame import Surface
 
 
 class OptionMenu:
