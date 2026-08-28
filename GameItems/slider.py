@@ -23,12 +23,8 @@ class Slider:  # Autoresize check
             "value": 0
         }
         options.update(kwargs)
-        self.x = 0
-        self.y = 0
         self.min = 0
         self.max = 1
-        self.height = 25
-        self.width = 100
 
         self.bgColor = (128, 128, 128)
         self.fgColor = (255, 255, 255)
@@ -43,10 +39,10 @@ class Slider:  # Autoresize check
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        self.x = rNum(self.x, 1)
-        self.y = rNum(self.y, 1)
-        self.height = rNum(self.height, 1)
-        self.width = rNum(self.width, 1)
+        self.x = rNum(options["x"], 1)
+        self.y = rNum(options["y"], 1)
+        self.height = rNum(options["height"], 1)
+        self.width = rNum(options["width"], 1)
 
         self.fontSize = rNum(24, 1)
 
@@ -108,5 +104,5 @@ class Slider:  # Autoresize check
                     self.height.get() * self.nobScale)
 
         f = font.SysFont('comicsansms', int(self.fontSize.get()))
-        t = f.render(f"{self.value}", False, BLUE, None)
+        t = f.render(f"{self.value}", True, BLUE, None)
         screen.blit(t, (self.x.get(), self.y.get()))

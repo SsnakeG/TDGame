@@ -62,7 +62,7 @@ class OptionBox:  # Autoresize check
         return rect
 
     def draw(self, screen):
-        firstRect = None
+        firstRect: Rect
         draw.rect(screen, self.highlight_color if self.menu_active else self.color, self.rect)
         draw.rect(screen, DARK_BLUE, self.rect, 2)
         msg = self.font.render(self.option_list[self.selected], 1, DARK_BLUE)

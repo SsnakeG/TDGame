@@ -1,6 +1,6 @@
 
 from GameItems.autoResizableNum import rNum
-from pygame import Surface, transform, mouse, draw, font, Rect
+from pygame import Surface, transform, draw, font, Rect
 
 
 class Button:  # Autoresize check
@@ -18,7 +18,7 @@ class Button:  # Autoresize check
         self.clicked = False
 
         self.command = None
-        self.args = None
+        self.args = []
 
         self.buttons.append(self)
 
@@ -36,15 +36,15 @@ class Button:  # Autoresize check
             self.clicked = False
         return action
 
-    def checkClick(self, offset=(0, 0)):
-        pos = (mouse.get_pos()[0] - offset[0], mouse.get_pos()[1] - offset[1])
+    # def checkClick(self, offset=(0, 0)):
+    #     pos = (mouse.get_pos()[0] - offset[0], mouse.get_pos()[1] - offset[1])
 
-        if self.rect.collidepoint(pos):
-            if mouse.get_pressed()[0] and not self.clicked:
-                self.clicked = True
-                self.command(*self.args)
-        if not mouse.get_pressed()[0]:
-            self.clicked = False
+    #     if self.rect.collidepoint(pos):
+    #         if mouse.get_pressed()[0] and not self.clicked:
+    #             self.clicked = True
+    #             self.command(*self.args)
+    #     if not mouse.get_pressed()[0]:
+    #         self.clicked = False
 
     def updateSizes(self):
         self.image = transform.scale(self.ogImg, (self.width.get(), self.height.get()))
@@ -65,9 +65,9 @@ class NoImgButton:  # Autoresize check
         self.hoveredColor = hovColor
         self.hovering = False
 
-        self.font = font.SysFont('comicsansms', int(self.fontSize.get()))
+        self.font = font.SysFont('Cambria', int(self.fontSize.get()))
         self.buttonText = text
-        self.text = self.font.render(self.buttonText, False, self.textColor if self.textColor else self.bgColor, None)
+        self.text = self.font.render(self.buttonText, True, self.textColor if self.textColor else self.bgColor, None)
         self.tRect = self.text.get_rect()
         self.tRect.center = self.rect.center
 
@@ -96,13 +96,13 @@ class NoImgButton:  # Autoresize check
         surface.blit(self.text, self.tRect)
 
     def update(self, text: str):
-        self.text = self.font.render(text, False, self.textColor if self.textColor else self.bgColor, None)
+        self.text = self.font.render(text, True, self.textColor if self.textColor else self.bgColor, None)
         self.tRect = self.text.get_rect()
         self.tRect.center = self.rect.center
 
     def updateSizes(self):
         self.rect.update(int(self.x.get()), int(self.y.get()), int(self.w.get()), int(self.h.get()))
-        self.font = font.SysFont('comicsansms', int(self.fontSize.get()))
-        self.text = self.font.render(self.buttonText, False, self.textColor if self.textColor else self.bgColor, None)
+        self.font = font.SysFont('Cambria', int(self.fontSize.get()))
+        self.text = self.font.render(self.buttonText, True, self.textColor if self.textColor else self.bgColor, None)
         self.tRect = self.text.get_rect()
         self.tRect.center = self.rect.center

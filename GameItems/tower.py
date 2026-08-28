@@ -49,13 +49,13 @@ class Tower:
                 self.start[1].end()
                 self.originList.remove(self)
 
-    def __init__(self, towerImage: Surface, pos, upgrade_type, block_size=25, attack_range=3, damage=1, speed=1, frames=60, price=100, special=None, tower_type=None, playSpeed=1):
+    def __init__(self, towerImage: Surface, pos, upgrade_type, block_size=25, attack_range=3, damage=1, speed=1, frames=60, price=100, special=[], tower_type=None, playSpeed=1):
         """Range in pixels, speed in seconds"""
         block_size = rNum(block_size, 4)
-        self.target = None
-        self.selectedShotStart = None
+        self.target: Enemy
+        self.selectedShotStart = []
         self.shotStartingCoord = None
-        self.drawnImg = None
+        self.drawnImg: Surface
         self.image = transform.scale(towerImage, (rNum(100, 4).endInitial(), rNum(100, 4).endInitial()))
         self.block_size = block_size
         self.sizeRatio = rNum(block_size.initial() / 100, 4)
@@ -242,7 +242,7 @@ class Tower:
                 if distance < self.range * self.block_size.get():
                     enemy_distance_list[distance] = enemy
         if self.targeting == 0:  # targeting first
-            first = None
+            first: Enemy
             for enemy in enemy_distance_list:
                 if not first:
                     first = enemy_distance_list[enemy]
@@ -256,7 +256,7 @@ class Tower:
             except ValueError:
                 pass
         elif self.targeting == 2:  # targeting strongest
-            strong = None
+            strong: Enemy
             for enemy in enemy_distance_list:
                 if not strong:
                     strong = enemy_distance_list[enemy]
@@ -265,7 +265,7 @@ class Tower:
                         strong = enemy_distance_list[enemy]
             self.target = strong
         elif self.targeting == 3:  # targeting weakest
-            weak = None
+            weak: Enemy
             for enemy in enemy_distance_list:
                 if not weak:
                     weak = enemy_distance_list[enemy]
@@ -274,7 +274,7 @@ class Tower:
                         weak = enemy_distance_list[enemy]
             self.target = weak
         elif self.targeting == 4:  # targeting last
-            last = None
+            last: Enemy
             for enemy in enemy_distance_list:
                 if not last:
                     last = enemy_distance_list[enemy]

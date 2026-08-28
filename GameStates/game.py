@@ -1,5 +1,6 @@
 import math
 
+from GameItems.maps import Map
 from GameStates.mapSelector import MapSelector
 from GameItems.tdColors import *
 from GameItems.tdImages import quitImg, enemyStats, popupBackground
@@ -35,11 +36,11 @@ class Game:
         self.unitSelected = False
         self.selectedTower: None | Tower | Farm = None
         self.placingUnit = False
-        self.selectedUnit = None
-        self.loadOut = None
+        self.selectedUnit = []
+        self.loadOut = []
 
-        self.selectedMap = None
-        self.chosenMap = None
+        self.selectedMap: Map
+        self.chosenMap: list = []
 
         self.won = False
         self.lost = False
@@ -153,7 +154,6 @@ class Game:
             game = False
             menu = True
             self.selectedMap.selected = False
-            self.selectedMap = None
             clickAllowed = False
             self.playAgain()
         elif self.winPopup.optionYes.check_click(clicked, mousePos, (self.winPopup.x, self.winPopup.y)):
@@ -177,7 +177,6 @@ class Game:
             game = False
             menu = True
             self.selectedMap.selected = False
-            self.selectedMap = None
             clickAllowed = False
             self.playAgain()
         elif self.losePopup.optionYes.check_click(clicked, mousePos, (self.losePopup.x, self.losePopup.y)):
@@ -329,7 +328,7 @@ class Game:
                         blocks[pos[1]][pos[0]].has_tower = True
                         self.budget -= info[4]
                         self.placingUnit = False
-                        self.selectedUnit = None
+                        self.selectedUnit = []
                         return True
                     except IndexError:
                         try:
@@ -338,7 +337,7 @@ class Game:
                             blocks[pos[1]][pos[0]].has_tower = True
                             self.budget -= info[4]
                             self.placingUnit = False
-                            self.selectedUnit = None
+                            self.selectedUnit = []
                             return True
                         except IndexError:
                             pass
@@ -348,7 +347,7 @@ class Game:
                     blocks[pos[1]][pos[0]].has_farm = True
                     self.budget -= info[1]
                     self.placingUnit = False
-                    self.selectedUnit = False
+                    self.selectedUnit = []
 
     def selectUnit(self, pos, blocks, towers):
         self.selectedTower = None
@@ -426,7 +425,7 @@ class Game:
         self.blockSurface = Surface((size, size))
 
     @staticmethod
-    def makeWaves(waveList: list, path: list, playSpeed: float):
+    def makeWaves(waveList: list, path: list, playSpeed: int):
         for wave in waveList:
             index = waveList.index(wave)
             for i in range(wave[1]):

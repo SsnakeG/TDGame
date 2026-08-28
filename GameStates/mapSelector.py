@@ -1,7 +1,7 @@
 from pygame import Surface, transform
 
 from GameItems.buttons import NoImgButton, Button
-from GameItems.maps import MapsPage
+from GameItems.maps import MapsPage, Map
 from GameItems.tdImages import leftArrow, rightArrow, mapSelected
 from GameItems.tdColors import *
 from GameItems.autoResizableNum import rNum
@@ -21,13 +21,13 @@ class MapSelector:
         self.mainSurface = mainSurface
 
         self.currentPage = None
-        self.displayedMaps = None
+        self.displayedMaps: list[Map]
 
-        self.selectedMap = None
-        self.chosenMap = None
+        self.selectedMap: Map
+        self.chosenMap: list
 
         self.pageNumber = 0
-        self.pages = None
+        self.pages = 1
         self.maps = self.loadMaps()
         self.newPage()
 
@@ -110,7 +110,6 @@ class MapSelector:
                 self.newPage()
                 try:
                     self.selectedMap.selected = False
-                    self.selectedMap = None
                 except AttributeError:
                     pass
             elif self.menuButton.checkClick():
@@ -121,7 +120,6 @@ class MapSelector:
                 self.newPage()
                 try:
                     self.selectedMap.selected = False
-                    self.selectedMap = None
                 except AttributeError:
                     pass
 
@@ -131,7 +129,6 @@ class MapSelector:
             clickAllowed = False
             try:
                 self.selectedMap.selected = False
-                self.selectedMap = None
             except AttributeError:
                 pass
 
@@ -141,7 +138,6 @@ class MapSelector:
             clickAllowed = False
             try:
                 self.selectedMap.selected = False
-                self.selectedMap = None
             except AttributeError:
                 pass
 

@@ -6,8 +6,8 @@ from GameItems.gui_helpers import blitText
 
 class PopupWindow:  # Autoresize check
     windows = []
-    x: AutoResizableNum | int | float
-    y: AutoResizableNum | int | float
+    x: AutoResizableNum
+    y: AutoResizableNum
 
     def __init__(self, img: Surface, **kwargs) -> None:
         self.img = img
@@ -27,8 +27,8 @@ class PopupWindow:  # Autoresize check
             self.x = rNum(options['x'], 1)
             self.y = rNum(options['y'], 1)
         else:
-            self.x = 0
-            self.y = 0
+            self.x = rNum(0, 1)
+            self.y = rNum(0, 1)
 
         self.numOfOptions = options["optionNum"]
 
@@ -37,6 +37,7 @@ class PopupWindow:  # Autoresize check
         self.buttonSize = (75 * options["scale"][0], 75 * options["scale"][1])
 
         self.image = transform.scale(self.img, (self.imageSize[0].get(), self.imageSize[1].get()))
+        self.optionNo: Button
         if self.numOfOptions == 2:
             self.optionYes = Button(self.image.get_width() * (1 / 6), self.image.get_height() * (2 / 3),
                                     transform.scale(checkImg, (self.buttonSize[0], self.buttonSize[1])), 1, 1)
@@ -45,7 +46,6 @@ class PopupWindow:  # Autoresize check
         elif self.numOfOptions == 1:
             self.optionYes = Button(self.image.get_width() * (3 / 8), self.image.get_height() * (2 / 3),
                                     transform.scale(checkImg, (self.buttonSize[0], self.buttonSize[1])), 1, 1)
-            self.optionNo = None
 
         self.textColor = options["textColor"]
         self.text = options["text"]
@@ -62,11 +62,11 @@ class PopupWindow:  # Autoresize check
         if self.optionNo:
             self.optionNo.draw(self.surface)
         if self.centering:
-            self.x = (surface.get_width() - self.image.get_width()) / 2
-            self.y = (surface.get_height() - self.image.get_height()) / 2
-            surface.blit(self.surface, (self.x, self.y))
-        else:
-            surface.blit(self.surface, (self.x.get(), self.y.get()))
+            self.x.end()
+            self.y.end()
+            self.x = rNum((surface.get_width() - self.image.get_width()) / 2, 1)
+            self.y = rNum((surface.get_height() - self.image.get_height()) / 2, 1)
+        surface.blit(self.surface, (self.x.get(), self.y.get()))
 
     def updateSizes(self):
         self.image = transform.scale(self.img, (self.imageSize[0].get(), self.imageSize[1].get()))

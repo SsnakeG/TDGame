@@ -1,6 +1,4 @@
-
-
-from GameItems.autoResizableNum import rNum, rNums, AutoResizableNum, AutoResizableSet
+from GameItems.autoResizableNum import rNum, rNums, AutoResizableSet
 from pygame import Surface, draw, font
 from GameItems.tdColors import DARK_BLUE, OPAQUE_LIGHT_BLUE, LIME_GREEN, LIME_GREEN2, DARKER_YELLOW, YELLOW, RED, PINK, WHITE
 from GameItems.buttons import NoImgButton
