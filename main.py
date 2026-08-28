@@ -1,8 +1,11 @@
 import pygame
-from GameItems.GUI import Block, NoImgButton, PopupWindow, Button, OptionBox
+from GameItems.buttons import NoImgButton, Button
+from GameItems.popup import PopupWindow
+from GameItems.option_box import OptionBox
 from GameItems.tdColors import green_elements, BLACK, EMPTY_COLOR
 from GameItems.tdImages import background, FPS
 from GameItems.autoResizableNum import *
+from GameItems.game_square import GameSquare
 from random import choice
 
 from GameStates.menu import Menu
@@ -59,9 +62,9 @@ clock = pygame.time.Clock()
 
 blockSize = rNum(25, 1)
 mapDimensions = (600, 600)
-blockArray: list[list[Block]] = [[Block([j * blockSize.get(), i * blockSize.get()], choice(green_elements), blockSize.get())
+blockArray: list[list[GameSquare]] = [[GameSquare([j * blockSize.get(), i * blockSize.get()], choice(green_elements), blockSize.get())
                                   for j in range(int(mapDimensions[1] / blockSize.get()))] for i in range(int(mapDimensions[0] / blockSize.get()))]
-trackEditorArray: list[list[Block]] = [[Block([j * 20 + 50, i * 20 + 15], choice(green_elements), blockSize.get())
+trackEditorArray: list[list[GameSquare]] = [[GameSquare([j * 20 + 50, i * 20 + 15], choice(green_elements), blockSize.get())
                                   for j in range(int(mapDimensions[1] / blockSize.get()))] for i in range(int(mapDimensions[0] / blockSize.get()))]
 
 playSpeed = 1

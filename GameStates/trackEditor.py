@@ -1,4 +1,6 @@
-from GameItems.GUI import Button, PopupWindow, MapsPage
+from GameItems.buttons import Button
+from GameItems.popup import PopupWindow
+from GameItems.maps import MapsPage
 from GameItems.tdImages import undoImg, RedoImg, saveImg, trashImg, homeImg, popupBackground
 from GameItems.tdColors import *
 from pygame import QUIT, MOUSEBUTTONDOWN

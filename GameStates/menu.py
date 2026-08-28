@@ -1,4 +1,5 @@
-from GameItems.GUI import PopupWindow, NoImgButton
+from GameItems.buttons import NoImgButton
+from GameItems.popup import PopupWindow
 from GameItems.tdImages import popupBackground
 from GameItems.tdColors import *
 from pygame import Surface

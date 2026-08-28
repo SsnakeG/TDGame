@@ -1,6 +1,7 @@
 from pygame import Surface, transform
 
-from GameItems.GUI import NoImgButton, Button, MapsPage
+from GameItems.buttons import NoImgButton, Button
+from GameItems.maps import MapsPage
 from GameItems.tdImages import leftArrow, rightArrow, mapSelected
 from GameItems.tdColors import *
 from GameItems.autoResizableNum import rNum

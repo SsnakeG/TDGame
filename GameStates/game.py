@@ -4,8 +4,13 @@ from GameStates.mapSelector import MapSelector
 from GameItems.tdColors import *
 from GameItems.tdImages import quitImg, enemyStats, popupBackground
 from pygame import draw, Surface, SRCALPHA, font
-from GameItems.gameEntities import Farm, Tower, Enemy, Block
-from GameItems.GUI import Button, PopupWindow, SelectionBox
+from GameItems.farm import Farm
+from GameItems.tower import Tower
+from GameItems.enemy import Enemy
+from GameItems.game_square import GameSquare
+from GameItems.selection_box import SelectionBox
+from GameItems.popup import PopupWindow
+from GameItems.buttons import Button
 from GameItems.waves import difficultyEasy, waveBonusEasy
 from GameItems.autoResizableNum import *
 
@@ -404,7 +409,7 @@ class Game:
         Tower.tower_list = []
         Enemy.enemy_list = []
         Farm.farmList = []
-        for block in Block.block_list:
+        for block in GameSquare.block_list:
             block.has_tower = False
             block.changeColor(reset=True)
         self.unitSelected = False
