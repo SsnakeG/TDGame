@@ -150,13 +150,13 @@ class Game:
         game = True
         clickAllowed = True
         self.won = True
-        if self.winPopup.optionNo.check_click(clicked, mousePos, (self.winPopup.x, self.winPopup.y)):
+        if self.winPopup.optionNo.check_click(clicked, mousePos, (self.winPopup.x.get(), self.winPopup.y.get())):
             game = False
             menu = True
             self.selectedMap.selected = False
             clickAllowed = False
             self.playAgain()
-        elif self.winPopup.optionYes.check_click(clicked, mousePos, (self.winPopup.x, self.winPopup.y)):
+        elif self.winPopup.optionYes.check_click(clicked, mousePos, (self.winPopup.x.get(), self.winPopup.y.get())):
             self.playAgain()
             clickAllowed = False
 
@@ -173,13 +173,13 @@ class Game:
         clickAllowed = True
         self.lost = True
         self.losePopup.draw(self.mainSurface)
-        if self.losePopup.optionNo.check_click(clicked, mousePos, (self.losePopup.x, self.losePopup.y)):
+        if self.losePopup.optionNo.check_click(clicked, mousePos, (self.losePopup.x.get(), self.losePopup.y.get())):
             game = False
             menu = True
             self.selectedMap.selected = False
             clickAllowed = False
             self.playAgain()
-        elif self.losePopup.optionYes.check_click(clicked, mousePos, (self.losePopup.x, self.losePopup.y)):
+        elif self.losePopup.optionYes.check_click(clicked, mousePos, (self.losePopup.x.get(), self.losePopup.y.get())):
             self.playAgain()
             clickAllowed = False
 
