@@ -97,7 +97,7 @@ class Game:
     def checkClicks(self, clicked, mousePos, blockArray, name, clickAllowed, offset=(0, 0)):
         mousePos = [mousePos[0] - offset[0], mousePos[1] - offset[1]]
         if clicked and not (self.won and self.lost and self.paused) and clickAllowed:
-            if self.selectionBox.x <= mousePos[0] <= self.selectionBox.x + self.selectionBox.width.get() and self.selectionBox.y <= mousePos[1] <= self.selectionBox.y + self.selectionBox.height.get() and self.selectedTower:
+            if self.selectionBox.x <= mousePos[0] <= self.selectionBox.x + self.selectionBox.width and self.selectionBox.y <= mousePos[1] <= self.selectionBox.y + self.selectionBox.height and self.selectedTower:
                 if self.selectedTower and self.selectedTower.level < 4:
                     if self.selectionBox.upgradeButton.checkClick():
                         self.budget = self.selectedTower.upgrade(self.budget)
@@ -122,8 +122,8 @@ class Game:
                 else:
                     if self.hotBarVisible:
                         for i in range(6):
-                            iconX = self.hotBarX.get() + (self.hotBarRadius.get() + self.hotBarPadding.get()) * i
-                            if math.dist((iconX, self.hotBarY.get()), mousePos) < self.hotBarRadius.get():
+                            iconX = i * (self.hotBarRadius + self.hotBarPadding) + self.hotBarX
+                            if math.dist((iconX, self.hotBarY.get()), mousePos) < self.hotBarRadius:
                                 name = self.selectUnitType(i)
                     else:
                         self.selectUnit(square, blockArray, Tower.tower_list)
@@ -150,13 +150,13 @@ class Game:
         game = True
         clickAllowed = True
         self.won = True
-        if self.winPopup.optionNo.check_click(clicked, mousePos, (self.winPopup.x.get(), self.winPopup.y.get())):
+        if self.winPopup.optionNo.check_click(clicked, mousePos, (self.winPopup.x, self.winPopup.y)):
             game = False
             menu = True
             self.selectedMap.selected = False
             clickAllowed = False
             self.playAgain()
-        elif self.winPopup.optionYes.check_click(clicked, mousePos, (self.winPopup.x.get(), self.winPopup.y.get())):
+        elif self.winPopup.optionYes.check_click(clicked, mousePos, (self.winPopup.x, self.winPopup.y)):
             self.playAgain()
             clickAllowed = False
 
@@ -173,13 +173,13 @@ class Game:
         clickAllowed = True
         self.lost = True
         self.losePopup.draw(self.mainSurface)
-        if self.losePopup.optionNo.check_click(clicked, mousePos, (self.losePopup.x.get(), self.losePopup.y.get())):
+        if self.losePopup.optionNo.check_click(clicked, mousePos, (self.losePopup.x, self.losePopup.y)):
             game = False
             menu = True
             self.selectedMap.selected = False
             clickAllowed = False
             self.playAgain()
-        elif self.losePopup.optionYes.check_click(clicked, mousePos, (self.losePopup.x.get(), self.losePopup.y.get())):
+        elif self.losePopup.optionYes.check_click(clicked, mousePos, (self.losePopup.x, self.losePopup.y)):
             self.playAgain()
             clickAllowed = False
 
@@ -212,11 +212,11 @@ class Game:
                         farm.text = None
         if self.placingUnit:
             try:
-                self.mainSurface.blit(pygame.transform.scale(self.selectedUnit[3], (blockSize.get(), blockSize.get())), (mousePos[0] - blockSize.get() / 2, mousePos[1] - blockSize.get() / 2))
-                draw.circle(self.surface, OPAQUE_CYAN, (mousePos[0] + blockSize.get() / 2, mousePos[1] + blockSize.get() / 2),
-                            self.selectedUnit[1] * blockSize.get())
+                self.mainSurface.blit(pygame.transform.scale(self.selectedUnit[3], (blockSize.get(), blockSize.get())), (mousePos[0] - blockSize / 2, mousePos[1] - blockSize / 2))
+                draw.circle(self.surface, OPAQUE_CYAN, (mousePos[0] + blockSize / 2, mousePos[1] + blockSize / 2),
+                            self.selectedUnit[1] * blockSize)
             except TypeError:
-                self.mainSurface.blit(pygame.transform.scale(self.selectedUnit[2], (blockSize.get(), blockSize.get())), (mousePos[0] - blockSize.get() / 2, mousePos[1] - blockSize.get() / 2))
+                self.mainSurface.blit(pygame.transform.scale(self.selectedUnit[2], (blockSize.get(), blockSize.get())), (mousePos[0] - blockSize / 2, mousePos[1] - blockSize / 2))
 
         if self.paused:
             self.mainSurface.blit(self.pauseMenu, (50, 50))
@@ -232,39 +232,39 @@ class Game:
         self.screen.blit(self.mainSurface, surfacePos)
 
     def drawTowerHotBar(self, mousePos):
-        if mousePos[1] >= self.screenSize.get() - self.hotBarRadius.get() - self.hotBarPadding.get():
+        if mousePos[1] >= self.screenSize - self.hotBarRadius - self.hotBarPadding:
             self.hotBarVisible = True
         else:
             self.hotBarVisible = False
 
         if self.hotBarVisible:
-            if self.hotBarY.get() > self.screenSize.get() - self.hotBarRadius.get() * 1.5:
+            if self.hotBarY > self.screenSize - self.hotBarRadius * 1.5:
                 self.hotBarY = rNum(self.hotBarY.endInitial() - self.animationSpeed.initial(), 1)
         else:
-            if self.hotBarY.get() < self.screenSize.get() + self.hotBarRadius.get():
+            if self.hotBarY < self.screenSize + self.hotBarRadius:
                 self.hotBarY = rNum(self.hotBarY.endInitial() + self.animationSpeed.initial(), 1)
             else:
                 pygame.draw.rect(self.mainSurface, DARK_BLUE, self.hotBarIndicator.get(), border_radius=3)
 
         for i in range(6):
-            iconX = self.hotBarX.get() + (self.hotBarRadius.get() + self.hotBarPadding.get()) * i
+            iconX =  i * (self.hotBarRadius + self.hotBarPadding) + self.hotBarX
             pygame.draw.circle(self.mainSurface, DARK_BLUE, (iconX, self.hotBarY.get()), self.hotBarRadius.get())
-            pygame.draw.circle(self.mainSurface, GRAY, (iconX, self.hotBarY.get()), self.hotBarRadius.get() - 5)
+            pygame.draw.circle(self.mainSurface, GRAY, (iconX, self.hotBarY.get()), self.hotBarRadius - 5)
             try:
                 image = pygame.transform.scale(self.loadOut[i][3], (self.hotBarRadius.get(), self.hotBarRadius.get()))
             except TypeError:
                 image = pygame.transform.scale(self.loadOut[i][2], (self.hotBarRadius.get(), self.hotBarRadius.get()))
-            self.mainSurface.blit(image, (iconX - self.hotBarRadius.get() / 2, self.hotBarY.get() - self.hotBarRadius.get() / 2))
+            self.mainSurface.blit(image, (iconX - self.hotBarRadius / 2, self.hotBarY - self.hotBarRadius / 2))
 
         for i in range(6):
-            iconX = self.hotBarX.get() + (self.hotBarRadius.get() + self.hotBarPadding.get()) * i
+            iconX = i * (self.hotBarRadius + self.hotBarPadding) + self.hotBarX
             if math.dist((iconX, self.hotBarY.get()), mousePos) < self.hotBarRadius:
                 if self.loadOut[i][-1] != 'Farm':
                     text = self.font1.render(f"${self.loadOut[i][4]}", True, LIME_GREEN2)
                 else:
                     text = self.font1.render(f"${self.loadOut[i][1]}", True, LIME_GREEN2)
                 textRect = text.get_rect()
-                self.mainSurface.blit(text, (iconX - textRect.width / 2, self.hotBarY.get() - self.hotBarRadius.get() - textRect.height))
+                self.mainSurface.blit(text, (iconX - textRect.width / 2, int(self.hotBarY - self.hotBarRadius - textRect.height)))
 
     def renderInGameText(self, name: str, waveNum: int):
         if self.health <= 0:
@@ -320,7 +320,7 @@ class Game:
             if not info:
                 return
             try:
-                if info[4] <= self.budget and pos[1] * self.blockSize.get() < self.screenSize.get() and not blocks[pos[1]][pos[0]].is_path and not (
+                if info[4] <= self.budget and pos[1] * self.blockSize < self.screenSize and not blocks[pos[1]][pos[0]].is_path and not (
                         blocks[pos[1]][pos[0]].has_tower or blocks[pos[1]][pos[0]].has_farm):
                     try:
                         Tower(info[3], pos, upgrade_type=info[5], damage=info[0], attack_range=info[1], speed=info[2],
@@ -342,7 +342,7 @@ class Game:
                         except IndexError:
                             pass
             except TypeError:
-                if info[1] <= self.budget and pos[1] * self.blockSize.get() < self.screenSize.get() and not blocks[pos[1]][pos[0]].is_path and not blocks[pos[1]][pos[0]].has_tower:
+                if info[1] <= self.budget and pos[1] * self.blockSize < self.screenSize and not blocks[pos[1]][pos[0]].is_path and not blocks[pos[1]][pos[0]].has_tower:
                     Farm(info[2], pos, info[3])
                     blocks[pos[1]][pos[0]].has_farm = True
                     self.budget -= info[1]
@@ -355,7 +355,7 @@ class Game:
         try:
             if blocks[pos[1]][pos[0]].has_tower:
                 for tower in towers:
-                    if (round(tower.pos.getIdx(0) / self.blockSize.get()), round(tower.pos.getIdx(1) / self.blockSize.get())) == pos:
+                    if (round(tower.pos.getIdx(0) / self.blockSize), round(tower.pos.getIdx(1) / self.blockSize)) == pos:
                         tower.selected = True
                         self.unitSelected = True
                         self.selectedTower = tower
@@ -363,7 +363,7 @@ class Game:
                         tower.selected = False
             elif blocks[pos[1]][pos[0]].has_farm:
                 for farm in Farm.farmList:
-                    if (round(farm.pos.getIdx(0) / self.blockSize.get()), round(farm.pos.getIdx(1) / self.blockSize.get())) == pos:
+                    if (round(farm.pos.getIdx(0) / self.blockSize), round(farm.pos.getIdx(1) / self.blockSize)) == pos:
                         farm.selected = True
                         self.unitSelected = True
                         self.selectedTower = farm
@@ -439,5 +439,5 @@ class Game:
 
     @staticmethod
     def getSquare(pos):
-        clicked_on_block = (int(pos[0] / Game.blockSize.get()), int(pos[1] / Game.blockSize.get()))
+        clicked_on_block = (int(pos[0] / Game.blockSize), int(pos[1] / Game.blockSize))
         return clicked_on_block

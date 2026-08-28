@@ -62,10 +62,10 @@ clock = pygame.time.Clock()
 
 blockSize = rNum(25, 1)
 mapDimensions = (600, 600)
-blockArray: list[list[GameSquare]] = [[GameSquare([j * blockSize.get(), i * blockSize.get()], choice(green_elements), blockSize.get())
-                                  for j in range(int(mapDimensions[1] / blockSize.get()))] for i in range(int(mapDimensions[0] / blockSize.get()))]
+blockArray: list[list[GameSquare]] = [[GameSquare([j * blockSize, i * blockSize], choice(green_elements), blockSize.get())
+                                  for j in range(int(mapDimensions[1] / blockSize))] for i in range(int(mapDimensions[0] / blockSize))]
 trackEditorArray: list[list[GameSquare]] = [[GameSquare([j * 20 + 50, i * 20 + 15], choice(green_elements), blockSize.get())
-                                  for j in range(int(mapDimensions[1] / blockSize.get()))] for i in range(int(mapDimensions[0] / blockSize.get()))]
+                                  for j in range(int(mapDimensions[1] / blockSize))] for i in range(int(mapDimensions[0] / blockSize))]
 
 playSpeed = 1
 

@@ -25,7 +25,7 @@ class Button:  # Autoresize check
     def draw(self, surface: Surface):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
-    def check_click(self, clicked, mousePos, offset:tuple[int, int]=(0, 0)):
+    def check_click(self, clicked, mousePos, offset=(0,0)):
         action = False
         pos = (mousePos[0] - offset[0], mousePos[1] - offset[1])
 

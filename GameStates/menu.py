@@ -58,9 +58,9 @@ class Menu:
     def checkQuit(self, clicked, clickAllowed, mousePos, surfacePos):
         run = True
 
-        if self.confirmClose.optionYes.check_click(clicked, mousePos, (self.confirmClose.x.get() + surfacePos[0], self.confirmClose.y.get() + surfacePos[1])) and clickAllowed:
+        if self.confirmClose.optionYes.check_click(clicked, mousePos, (self.confirmClose.x + surfacePos[0], self.confirmClose.y + surfacePos[1])) and clickAllowed:
             run = False
-        elif self.confirmClose.optionNo.check_click(clicked, mousePos, (self.confirmClose.x.get() + surfacePos[0], self.confirmClose.y.get() + surfacePos[1])) and clickAllowed:
+        elif self.confirmClose.optionNo.check_click(clicked, mousePos, (self.confirmClose.x + surfacePos[0], self.confirmClose.y + surfacePos[1])) and clickAllowed:
             self.quitting = False
             clickAllowed = False
             self.mainSurface.fill(EMPTY_COLOR)

@@ -55,21 +55,21 @@ class Slider:  # Autoresize check
             self.value = self.min
             self.slideX = self.slideXMin.get()
         else:
-            self.slideX = self.slideDifference.get() * (self.value / self.max) + self.slideXMin.get()
+            self.slideX = self.slideDifference * (self.value / self.max) + self.slideXMin
 
         Slider.sliders.append(self)
 
     def checkClickPos(self, offset=(0, 0)):
         mousePos = mouse.get_pos()
         mousePos = (mousePos[0] - offset[0], mousePos[1] - offset[1])
-        dist = math.dist(mousePos, (self.slideX, self.y.get() + self.height.get() / 2))
-        if dist <= self.height.get() * self.nobScale:
+        dist = math.dist(mousePos, (self.slideX, self.y + self.height / 2))
+        if dist <= self.height * self.nobScale:
             return True
         return False
 
     def getValue(self):
-        lowValue = self.slideX - self.slideXMin.get()
-        percent = lowValue / self.slideDifference.get()
+        lowValue = self.slideX - self.slideXMin
+        percent = lowValue / self.slideDifference
         self.value = customRound(((self.max - self.min) * percent) + self.min, self.interval)
         return self.value
 
@@ -85,24 +85,24 @@ class Slider:  # Autoresize check
         if clicked:
             self.held = True
             self.slideX = mouse.get_pos()[0] - surfacePos[0]
-        if self.slideX >= self.slideXMax.get():
+        if self.slideX >= self.slideXMax:
             self.slideX = self.slideXMax.get()
-        elif self.slideX <= self.slideXMin.get():
+        elif self.slideX <= self.slideXMin:
             self.slideX = self.slideXMin.get()
         self.getValue()
 
     def draw(self, screen: Surface):
         draw.rect(screen, self.bgColor, (self.x.get(), self.y.get(), self.width.get(), self.height.get()))
-        draw.rect(screen, (0, 0, 0), (self.x.get() + self.borderWidth.get(), self.y.get() + self.borderWidth.get(),
-                                      self.width.get() - 2 * self.borderWidth.get(),
-                                      self.height.get() - 2 * self.borderWidth.get()))
+        draw.rect(screen, (0, 0, 0), (self.x + self.borderWidth, self.y + self.borderWidth,
+                                      self.width - 2 * self.borderWidth,
+                                      self.height - 2 * self.borderWidth))
         draw.rect(screen, self.fillColor, (
-            self.x.get() + self.borderWidth.get(), self.y.get() + self.borderWidth.get(),
-            self.slideX - self.x.get() - 2,
-            self.height.get() - 2 * self.borderWidth.get()))
-        draw.circle(screen, self.fgColor, (self.slideX, self.y.get() + self.height.get() / 2),
-                    self.height.get() * self.nobScale)
+            self.x + self.borderWidth, self.y + self.borderWidth,
+            self.slideX - self.x - 2,
+            self.height - 2 * self.borderWidth))
+        draw.circle(screen, self.fgColor, ((self.slideX, self.y + self.height / 2)),
+                    self.height * self.nobScale)
 
-        f = font.SysFont('comicsansms', int(self.fontSize.get()))
+        f = font.SysFont('calibri', int(self.fontSize.get()))
         t = f.render(f"{self.value}", True, BLUE, None)
         screen.blit(t, (self.x.get(), self.y.get()))

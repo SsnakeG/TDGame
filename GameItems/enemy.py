@@ -55,7 +55,7 @@ class Enemy:
     def draw(self, screen: Surface):
         img = transform.scale(self.image, (self.size.get(), self.size.get()))
         screen.blit(img, (self.location[0].get(), self.location[1].get()))
-        draw.rect(screen, (255, 0, 0), [self.location[0].get(), self.location[1].get(), self.size.get() * self.health / self.initial_health, 2])
+        draw.rect(screen, (255, 0, 0), [self.location[0].get(), self.location[1].get(), self.size * self.health / self.initial_health, 2])
         if self.fire_status:
             screen.blit(transform.scale(self.fire, (self.size.get(), self.size.get())), (self.location[0].get(), self.location[1].get()))
         if self.ice_status:
@@ -137,13 +137,13 @@ class Enemy:
 
             self.targeted_coord = [rNum(self.target_location[0] * self.size.initial(), 3), rNum(self.target_location[1] * self.size.initial(), 3)]
 
-            if self.location[0].get() > self.targeted_coord[0].get():
+            if self.location[0] > self.targeted_coord[0]:
                 self.location[0] = rNum(self.location[0].initial() - self.speed, 3)
-            elif self.location[0].get() < self.targeted_coord[0].get():
+            elif self.location[0] < self.targeted_coord[0]:
                 self.location[0] = rNum(self.location[0].initial() + self.speed, 3)
-            elif self.location[1].get() > self.targeted_coord[1].get():
+            elif self.location[1] > self.targeted_coord[1]:
                 self.location[1] = rNum(self.location[1].initial() - self.speed, 3)
-            elif self.location[1].get() < self.targeted_coord[1].get():
+            elif self.location[1] < self.targeted_coord[1]:
                 self.location[1] = rNum(self.location[1].initial() + self.speed, 3)
         except IndexError:
             index = Enemy.enemy_list.index(self)

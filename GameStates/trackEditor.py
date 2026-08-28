@@ -74,7 +74,7 @@ class TrackEditor:
         mapSelector = False
         if self.homeConfirmation:
             self.homeConfirmationPopup.draw(self.surface)
-            if self.homeConfirmationPopup.optionYes.check_click(clicked, mousePos, (self.homeConfirmationPopup.x.get(), self.homeConfirmationPopup.y.get())):
+            if self.homeConfirmationPopup.optionYes.check_click(clicked, mousePos, (self.homeConfirmationPopup.x, self.homeConfirmationPopup.y)):
                 pathEditing = False
                 mapSelector = True
                 clickAllowed = False
@@ -83,22 +83,22 @@ class TrackEditor:
                     self.resetBlockColor(part, blockArray, reset=True)
                 self.newPathParts = []
                 self.homeConfirmation = False
-            elif self.homeConfirmationPopup.optionNo.check_click(clicked, mousePos, (self.homeConfirmationPopup.x.get(), self.homeConfirmationPopup.y.get())):
+            elif self.homeConfirmationPopup.optionNo.check_click(clicked, mousePos, (self.homeConfirmationPopup.x, self.homeConfirmationPopup.y)):
                 self.homeConfirmation = False
 
         elif self.clearConfirmation and self.newPathParts:
             self.clearConfirmationPopup.draw(self.surface)
-            if self.clearConfirmationPopup.optionYes.check_click(clicked, mousePos, (self.clearConfirmationPopup.x.get(), self.clearConfirmationPopup.y.get())):
+            if self.clearConfirmationPopup.optionYes.check_click(clicked, mousePos, (self.clearConfirmationPopup.x, self.clearConfirmationPopup.y)):
                 for part in self.newPathParts:
                     self.resetBlockColor(part, blockArray, reset=True)
                 self.newPathParts = []
                 self.clearConfirmation = False
-            elif self.clearConfirmationPopup.optionNo.check_click(clicked, mousePos, (self.clearConfirmationPopup.x.get(), self.clearConfirmationPopup.y.get())):
+            elif self.clearConfirmationPopup.optionNo.check_click(clicked, mousePos, (self.clearConfirmationPopup.x, self.clearConfirmationPopup.y)):
                 self.clearConfirmation = False
 
         elif self.saveConfirmation and self.newPathParts:
             self.saveConfirmationPopup.draw(self.surface)
-            if self.saveConfirmationPopup.optionYes.check_click(clicked, mousePos, (self.saveConfirmationPopup.x.get(), self.saveConfirmationPopup.y.get())):
+            if self.saveConfirmationPopup.optionYes.check_click(clicked, mousePos, (self.saveConfirmationPopup.x, self.saveConfirmationPopup.y)):
                 newPath = self.compileCustomPath(self.newPathParts)
                 permissionIssues = self.save(newPath, mapMenu)
                 self.saveConfirmation = False
@@ -106,7 +106,7 @@ class TrackEditor:
                 if not permissionIssues:
                     mapMenu.maps.append(newPath)
                     self.addNewMap(newPath, mapMenu)
-            elif self.saveConfirmationPopup.optionNo.check_click(clicked, mousePos, (self.saveConfirmationPopup.x.get(), self.saveConfirmationPopup.y.get())):
+            elif self.saveConfirmationPopup.optionNo.check_click(clicked, mousePos, (self.saveConfirmationPopup.x, self.saveConfirmationPopup.y)):
                 self.saveConfirmation = False
 
         return clickAllowed, pathEditing, mapSelector
@@ -192,7 +192,7 @@ class TrackEditor:
     @staticmethod
     def makeCustomPathPart(mousePos, blocks, pathColor, pathParts):
         newPathPart = []
-        square = (int((mousePos[0]-rNum(50, 0).end()) / TrackEditor.blockSize.get()), int((mousePos[1]-15) / TrackEditor.blockSize.get()))
+        square = (int((mousePos[0]-rNum(50, 0).end()) / TrackEditor.blockSize), int((mousePos[1]-15) / TrackEditor.blockSize))
         if min(square) > -1:
             try:  # checks for an empty list
                 block = blocks[square[1]][square[0]]
