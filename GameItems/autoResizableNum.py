@@ -89,21 +89,39 @@ class AutoResizableNum:
 
     def __add__(self, other):
         if type(other) == type(self):
-            return rNum(other.get() + self.get(), self.list)
+            return other.get() + self.get()
         else:
-            return rNum(other + self.get(), self.list)
+            return other + self.get()
+        
+    def __radd__(self, other):
+        return other + self.get()
 
     def __sub__(self, other):
         if type(other) == type(self):
-            return rNum(other.get() - self.get(), self.list)
+            return self.get() - other.get()
         else:
-            return rNum(other - self.get(), self.list)
+            return self.get() - other
+        
+    def __rsub__(self, other):
+        return other - self.get()
 
     def __mul__(self, other):
         if type(other) == type(self):
-            return rNum(other.get() * self.get(), self.list)
+            return other.get() * self.get()
         else:
-            return rNum(other * self.get(), self.list)
+            return other * self.get()
+        
+    def __rmul__(self, other):
+        return other * self.get()
+    
+    def __truediv__(self, other):
+        if type(other) == type(self):
+            return self.get() / other.get()
+        else:
+            return self.get() / other
+        
+    def __rtruediv__(self, other):
+        return other / self.get()
 
     def __le__(self, other):
         if type(other) == type(self):
@@ -130,7 +148,7 @@ class AutoResizableNum:
             return self.get() > other
 
     def __int__(self):
-        return self.currentVal
+        return int(self.currentVal)
 
     def __str__(self):
         return str(self.currentVal)

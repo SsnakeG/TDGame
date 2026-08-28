@@ -55,7 +55,7 @@ class PopupWindow:  # Autoresize check
         self.windows.append(self)
 
     def draw(self, surface: Surface):
-        f = font.SysFont('comicsansms', int(self.fontSize.get()))
+        f = font.SysFont('calibri', int(self.fontSize.get()))
         self.surface.blit(self.image, (0, 0))
         blitText(self.surface, self.text, (self.image.get_height() * (1 / 12)), f, color=self.textColor)
         self.optionYes.draw(self.surface)

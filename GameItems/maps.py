@@ -45,18 +45,18 @@ class MapsPage:  # Autoresize check
         selectedMap = None
         x = pos[0] - offset[0]
         y = pos[1] - offset[1]
-        if self.topRow[0].get() < y < self.topRow[1].get():
-            if self.leftColumn[0].get() < x < self.rightColumn[0].get():
+        if self.topRow[0] < y < self.topRow[1]:
+            if self.leftColumn[0] < x < self.rightColumn[0]:
                 selectedMap = self.map1
-            elif self.leftColumn[1].get() < x < self.rightColumn[1].get():
+            elif self.leftColumn[1] < x < self.rightColumn[1]:
                 selectedMap = self.map2
-            elif self.leftColumn[2].get() < x < self.rightColumn[2].get():
+            elif self.leftColumn[2] < x < self.rightColumn[2]:
                 selectedMap = self.map3
-        elif self.bottomRow[0].get() < y < self.bottomRow[1].get():
-            if self.leftColumn[0].get() < x < self.rightColumn[0].get():
+        elif self.bottomRow[0] < y < self.bottomRow[1]:
+            if self.leftColumn[0] < x < self.rightColumn[0]:
                 selectedMap = self.map4
-            elif self.leftColumn[1].get() < x < self.rightColumn[1].get():
+            elif self.leftColumn[1] < x < self.rightColumn[1]:
                 selectedMap = self.map5
-            elif self.leftColumn[2].get() < x < self.rightColumn[2].get():
+            elif self.leftColumn[2] < x < self.rightColumn[2]:
                 selectedMap = self.map6
         return selectedMap

@@ -120,7 +120,7 @@ class Tower:
 
         self.calculateShotStartPos()
         newShot = self.Shot(self.shotStartingCoord,
-                            [target.location[0].get() + target.size.get() / 2, target.location[1].get() + target.size.get() / 2], self.shotList,
+                            [target.location[0] + target.size / 2, target.location[1] + target.size / 2], self.shotList,
                             playSpeed=self.playSpeed)
         if self.type == 'Pyromaniac':
             newShot.color = ORANGE
@@ -171,7 +171,7 @@ class Tower:
         enemiesWithinDistance: list[Enemy] = []
         for enemy in Enemy.enemy_list:
             if enemy != target:
-                if math.dist((enemy.location[0].get(), enemy.location[1].get()), (target.location[0].get(), target.location[1].get())) <= self.special[0] * self.block_size.get() and enemy.is_on_map:
+                if math.dist((enemy.location[0].get(), enemy.location[1].get()), (target.location[0].get(), target.location[1].get())) <= self.special[0] * self.block_size and enemy.is_on_map:
                     enemiesWithinDistance.append(enemy)
         addedBudget = 0
         for enemy in enemiesWithinDistance:
@@ -205,7 +205,7 @@ class Tower:
     def sell(self, budget, blocks: list[list[GameSquare]]):
         self.sizeRatio.end()
         self.center.end()
-        blocks[int(self.pos.endIdx(1) / self.block_size.get())][int(self.pos.endIdx(0) / self.block_size.end())].has_tower = False
+        blocks[int(self.pos.endIdx(1) / self.block_size)][int(self.pos.endIdx(0) / self.block_size.end())].has_tower = False
         budget += self.sell_price
         index = Tower.tower_list.index(self)
         Tower.tower_list.pop(index)
@@ -215,8 +215,8 @@ class Tower:
     def draw(self, screen: Surface, color, surface):
         try:
             if self.selected:
-                draw.circle(surface, color, (self.pos.getIdx(0) + self.block_size.get() / 2, self.pos.getIdx(1) + self.block_size.get() / 2),
-                            self.range * self.block_size.get())
+                draw.circle(surface, color, (self.pos.getIdx(0) + self.block_size / 2, self.pos.getIdx(1) + self.block_size / 2),
+                            self.range * self.block_size)
             screen.blit(self.drawnImg, [self.center.getIdx(0) - self.drawnImg.get_width() / 2,
                                         self.center.getIdx(1) - self.drawnImg.get_height() / 2])
         except AttributeError:
@@ -228,18 +228,18 @@ class Tower:
         if self.type == 'Pyromaniac':
             for enemy in Enemy.enemy_list:
                 distance = math.dist((enemy.location[0].get(), enemy.location[1].get()), (self.pos.getIdx(0), self.pos.getIdx(1)))
-                if distance < self.range * self.block_size.get() and not enemy.fire_status:
+                if distance < self.range * self.block_size and not enemy.fire_status:
                     enemy_distance_list[distance] = enemy
                 pass
         elif self.type == 'Freezer':
             for enemy in Enemy.enemy_list:
                 distance = math.dist((enemy.location[0].get(), enemy.location[1].get()), (self.pos.getIdx(0), self.pos.getIdx(1)))
-                if distance < self.range * self.block_size.get() and not enemy.ice_status:
+                if distance < self.range * self.block_size and not enemy.ice_status:
                     enemy_distance_list[distance] = enemy
         else:
             for enemy in Enemy.enemy_list:
                 distance = math.dist((enemy.location[0].get(), enemy.location[1].get()), (self.pos.getIdx(0), self.pos.getIdx(1)))
-                if distance < self.range * self.block_size.get():
+                if distance < self.range * self.block_size:
                     enemy_distance_list[distance] = enemy
         if self.targeting == 0:  # targeting first
             first: Enemy

@@ -27,4 +27,4 @@ class GameSquare:            # Autoresize check
             self.color = color
 
     def draw(self, screen):
-        draw.rect(screen, self.color, [self.location[0].get(), self.location[1].get(), int(self.size.get()+1), int(self.size.get()+1)], 0)
+        draw.rect(screen, self.color, [self.location[0].get(), self.location[1].get(), int(self.size+1), int(self.size+1)], 0)

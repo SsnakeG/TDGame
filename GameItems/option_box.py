@@ -16,7 +16,7 @@ class OptionBox:  # Autoresize check
         self.color = color
         self.highlight_color = highlight_color
         self.rect = Rect(self.x.get(), self.y.get(), self.w.get(), self.h.get())
-        self.font = font.SysFont('comicsansms', int(self.fontSize.get()))
+        self.font = font.SysFont('calibri', int(self.fontSize.get()))
         self.option_list = option_list
         self.selected = selected
         self.draw_menu = False
@@ -29,7 +29,7 @@ class OptionBox:  # Autoresize check
             self.leftEdge = True
         else:
             self.leftEdge = False
-        if self.rect.x + self.rect.width * (3 / 2) >= self.rightMost.get():
+        if self.rect.x + self.rect.width * (3 / 2) >= self.rightMost:
             self.rightEdge = True
         else:
             self.rightEdge = False
@@ -45,7 +45,7 @@ class OptionBox:  # Autoresize check
     def getRectPos(self, rect, iterable):
         if iterable >= self.maxOptions // 2:
             if self.rightEdge:
-                rect.x = self.rightMost.get() - self.rect.width - 10
+                rect.x = self.rightMost - self.rect.width - 10
             elif self.leftEdge:
                 rect.x = 10 + self.rect.width
             else:
@@ -53,7 +53,7 @@ class OptionBox:  # Autoresize check
             rect.y += ((iterable - self.maxOptions // 2) + 1) * self.rect.height
         else:
             if self.rightEdge:
-                rect.x = self.rightMost.get() - 2 * self.rect.width - 10
+                rect.x = self.rightMost - 2 * self.rect.width - 10
             elif self.leftEdge:
                 rect.x = 10
             else:
@@ -88,7 +88,7 @@ class OptionBox:  # Autoresize check
                 if self.leftEdge:
                     x = 10 + 2 * self.rect.width
                 elif self.rightEdge:
-                    x = self.rightMost.get() - 10
+                    x = self.rightMost - 10
                 else:
                     x = self.rect.right + self.rect.width / 2
                 self.draw_scroll_bar(screen, x)
@@ -128,4 +128,4 @@ class OptionBox:  # Autoresize check
 
     def updateSizes(self):
         self.rect = Rect(self.x.get(), self.y.get(), self.w.get(), self.h.get())
-        self.font = font.SysFont('comicsansms', int(self.fontSize.get()))
+        self.font = font.SysFont('calibri', int(self.fontSize.get()))

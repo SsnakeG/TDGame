@@ -192,7 +192,7 @@ class TrackEditor:
     @staticmethod
     def makeCustomPathPart(mousePos, blocks, pathColor, pathParts):
         newPathPart = []
-        square = (int((mousePos[0]-rNum(50, 0).end()) / TrackEditor.blockSize.get()), int((mousePos[1]-15) / TrackEditor.blockSize.get()))
+        square = (int((mousePos[0]-rNum(50, 0).end()) / TrackEditor.blockSize), int((mousePos[1]-15) / TrackEditor.blockSize))
         if min(square) > -1:
             try:  # checks for an empty list
                 block = blocks[square[1]][square[0]]

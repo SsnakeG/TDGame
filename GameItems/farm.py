@@ -38,7 +38,7 @@ class Farm:
         self.level = 0
         self.sell_price = int(0.75 * price)
         self.selected = False
-        self.center = rNums(self.pos.getIdx(0) + self.size.get() / 2, self.pos.getIdx(1) + self.size.get() / 2, intList=4)
+        self.center = rNums(self.pos.getIdx(0) + self.size / 2, self.pos.getIdx(1) + self.size / 2, intList=4)
         self.farmList.append(self)
         self.type = "Farm"
         self.text: None | Farm.BudgetText = None
@@ -57,7 +57,7 @@ class Farm:
         return budget
 
     def sell(self, budget, blocks: list[list[GameSquare]]):
-        blocks[int(self.pos.getIdx(1) / self.size.get())][int(self.pos.getIdx(0) / self.size.get())].has_tower = False
+        blocks[int(self.pos.getIdx(1) / self.size)][int(self.pos.getIdx(0) / self.size)].has_tower = False
         budget += self.sell_price
         index = Farm.farmList.index(self)
         Farm.farmList.pop(index)
